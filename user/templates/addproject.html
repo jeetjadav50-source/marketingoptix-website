@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block title %}Add Project | MarketingOptix{% endblock %}
+
+{% block content %}
+
+    <div class="container position-relative z-1">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+
+                <div class="card glass-panel border-0 p-5 rounded-4 shadow-lg overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="text-center mb-5">
+                        <div class="bg-gradient-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-sm" style="width: 80px; height: 80px;">
+                            <i class="fas fa-plus fa-2x"></i>
+                        </div>
+                        <h2 class="fw-bolder text-dark font-outfit mb-2">Register New Mission</h2>
+                        <span class="badge bg-indigo-100 text-indigo-700 rounded-pill px-3 py-1 fw-bold font-inter small mb-4">Strategic Deployment</span>
+                        <p class="text-muted font-inter">Fill in the details below to publish your project on MarketingOptix.</p>
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark-300 font-inter small text-uppercase" style="letter-spacing: 1px;">Project Strategic Title</label>
+                            <div class="input-group shadow-sm rounded-pill overflow-hidden border border-light focus-within-glow transition-all">
+                                <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                        class="fas fa-terminal"></i></span>
+                                <input type="text" name="title" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6 fw-bold"
+                                    placeholder="e.g. Q4 Growth Acceleration Mission" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark-300 font-inter small text-uppercase" style="letter-spacing: 1px;">Strategic Mission Intelligence</label>
+                            <div class="input-group shadow-sm rounded-4 overflow-hidden border border-light focus-within-glow transition-all">
+                                <span class="input-group-text bg-white border-0 text-primary align-items-start pt-3 ps-4"><i
+                                        class="fas fa-brain"></i></span>
+                                <textarea name="description" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" rows="4"
+                                    placeholder="Define the mission objectives, target audience, and key deliverables..." required></textarea>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-dark-200">Select Services</label>
+                            <div class="row g-3 p-4 bg-white bg-opacity-75 rounded-4 shadow-sm border border-light mx-0">
+                                {% for service in services_list %}
+                                <div class="col-md-4">
+                                    <div class="form-check custom-checkbox">
+                                        <input class="form-check-input border-secondary" type="checkbox" name="services"
+                                            value="{{ service.serviceid }}" id="service_{{ service.serviceid }}">
+                                        <label class="form-check-label text-dark-200 cursor-pointer" for="service_{{ service.serviceid }}">
+                                            {{ service.servicename }}
+                                        </label>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <p class="text-muted mb-0 fst-italic">No services available. Please add some in admin.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-semibold text-dark-200 d-block">Project Mode</label>
+                                <div
+                                    class="d-flex gap-4 p-3 bg-white bg-opacity-75 rounded-3 shadow-sm border border-light h-100 align-items-center">
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="mode" id="mode_online"
+                                            value="online" checked>
+                                        <label class="form-check-label text-dark-200 cursor-pointer" for="mode_online">Online</label>
+                                    </div>
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="mode" id="mode_offline"
+                                            value="offline">
+                                        <label class="form-check-label text-dark-200 cursor-pointer" for="mode_offline">Offline</label>
+                                    </div>
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="mode" id="mode_mix"
+                                            value="mix">
+                                        <label class="form-check-label text-dark-200 cursor-pointer" for="mode_mix">Mix</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label class="form-label fw-bold text-dark-300 font-inter small text-uppercase" style="letter-spacing: 1px;">Strategic Budget (₹)</label>
+                                <div class="input-group shadow-sm rounded-pill overflow-hidden border border-light focus-within-glow transition-all">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                            class="fas fa-coins"></i></span>
+                                    <input type="number" name="budget" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6 fw-bold"
+                                        placeholder="0.00" step="0.01" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <button type="submit" name="submit" value="true" class="btn bg-gradient-primary text-white btn-lg w-100 rounded-pill shadow-lg hover-lift transition fw-bolder font-outfit py-3">
+                                Publish Project <i class="fas fa-rocket ms-2"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <p class="text-center mt-5">
+                        <a href="{% url 'home' %}" class="text-muted text-decoration-none hover-primary transition fw-medium font-inter"><i class="fa-solid fa-arrow-left me-2"></i> Back
+                            to Home</a>
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+    .form-control, .input-group-text {
+        background: rgba(255, 255, 255, 0.5) !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.3) !important;
+    }
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.1);
+        border-color: #6366f1 !important;
+    }
+</style>
+{% endblock %}

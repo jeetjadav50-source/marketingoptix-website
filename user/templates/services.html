@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Services | MarketingOptix{% endblock %}
+
+{% block content %}
+<!-- Services Hero -->
+<section class="services-hero py-5 position-relative overflow-hidden">
+  <style>
+    .services-hero {
+      padding: 120px 0 60px;
+    }
+    .service-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 30px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        height: 100%;
+        overflow: hidden;
+    }
+    .service-card:hover {
+        transform: translateY(-15px);
+        box-shadow: 0 30px 60px -12px rgba(99, 102, 241, 0.15);
+        border-color: rgba(99, 102, 241, 0.3);
+    }
+    .service-icon-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--gradient-primary);
+        color: white;
+        font-size: 2rem;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4);
+        transition: transform 0.3s ease;
+    }
+    .service-card:hover .service-icon-box {
+        transform: rotate(10deg) scale(1.1);
+    }
+    .learn-more-btn {
+        color: var(--indigo-600);
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    .learn-more-btn:hover {
+        gap: 12px;
+        color: var(--indigo-800);
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  </style>
+
+  <div class="container">
+    <div class="row justify-content-center text-center mb-5" data-aos="fade-up">
+      <div class="col-lg-8">
+        <h6 class="text-primary fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">Solutions for Success</h6>
+        <h1 class="display-4 fw-bolder font-outfit mb-4" style="letter-spacing: -2px;">
+          Empowering Your Brand with <span class="text-gradient">Premium Services</span>
+        </h1>
+        <p class="lead text-muted">From strategic SEO to high-impact creative campaigns, discover the full spectrum of marketing intelligence we offer.</p>
+      </div>
+    </div>
+
+    <!-- Main Dynamic Services Grid -->
+    <div class="row g-4 mb-5">
+      {% for service in services %}
+      <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:100 }}">
+        <div class="service-card p-5 border-light border-2">
+            <div class="service-icon-box">
+                {% if service.servicename == "SEO Optimization" %}
+                    <i class="fas fa-search-dollar"></i>
+                {% elif service.servicename == "Content Marketing" %}
+                    <i class="fas fa-pen-nib"></i>
+                {% elif service.servicename == "Social Media Management" %}
+                    <i class="fas fa-share-nodes"></i>
+                {% elif service.servicename == "Logo Design" %}
+                    <i class="fas fa-paint-brush"></i>
+                {% else %}
+                    <i class="fas fa-rocket"></i>
+                {% endif %}
+            </div>
+            <h3 class="fw-bold font-outfit mb-3">{{ service.servicename }}</h3>
+            <p class="text-muted mb-4">Elevate your digital presence with our bespoke {{ service.servicename }} solutions tailored for high-growth missions.</p>
+            <a href="{% url 'home' %}?service={{ service.serviceid }}" class="learn-more-btn">
+                Explore Projects <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Additional Features Section -->
+    <div class="row align-items-center py-5 g-5 mt-5">
+        <div class="col-lg-6" data-aos="fade-right">
+            <h2 class="display-5 fw-bold font-outfit mb-4">Why Choose Our Ecosystem?</h2>
+            <div class="d-flex gap-4 mb-4">
+                <div class="bg-primary-subtle text-primary p-3 rounded-circle" style="width: 60px; height: 60px; min-width: 60px;">
+                    <i class="fas fa-check-circle fs-3"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">Vetted Experts</h5>
+                    <p class="text-muted small">Every marketer in our platform undergoes a rigorous quality check to ensure top-tier delivery.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-4 mb-4">
+                <div class="bg-indigo-subtle text-indigo-600 p-3 rounded-circle" style="width: 60px; height: 60px; min-width: 60px;">
+                    <i class="fas fa-chart-line fs-3"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">Data-Driven Results</h5>
+                    <p class="text-muted small">We prioritize outcomes and clear ROI reporting for every project milestone reached.</p>
+                </div>
+            </div>
+            <div class="d-flex gap-4">
+                <div class="bg-warning-subtle text-warning p-3 rounded-circle" style="width: 60px; height: 60px; min-width: 60px;">
+                    <i class="fas fa-shield-alt fs-3"></i>
+                </div>
+                <div>
+                    <h5 class="fw-bold mb-1">Secure Transactions</h5>
+                    <p class="text-muted small">Peace of mind with our secure payment and milestone-based project management system.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6" data-aos="fade-left">
+            <div class="glass-panel p-2 rounded-5 shadow-lg overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-4" alt="Marketing Data">
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact Us | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="contact-section py-5 position-relative overflow-hidden">
+    <style>
+        .contact-section {
+            padding: 120px 0 80px;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 12px;
+            padding: 15px 20px;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            background: #fff !important;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.08);
+            border-color: #6366f1;
+        }
+        .contact-info-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 40px;
+        }
+        .icon-box-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+
+    <div class="container py-5">
+        <div class="row g-5">
+            <!-- Contact Info -->
+            <div class="col-lg-5" data-aos="fade-right">
+                <h6 class="text-primary fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">Reach Out</h6>
+                <h1 class="display-4 fw-bolder font-outfit mb-4" style="letter-spacing: -2px;">
+                    Let's Start a <span class="text-gradient">Conversation</span>
+                </h1>
+                <p class="lead text-muted mb-5">Have a question or a project in mind? Our team is ready to help you navigate your marketing journey.</p>
+
+                <div class="contact-info-card shadow-sm border-0">
+                    <div class="d-flex gap-4 mb-4 pb-4 border-bottom border-light">
+                        <div class="icon-box-circle">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Call Us</h5>
+                            <p class="text-muted mb-0">+(323) 750-1234</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-4 mb-4 pb-4 border-bottom border-light">
+                        <div class="icon-box-circle">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Email Us</h5>
+                            <p class="text-muted mb-0">hello@marketingoptix.com</p>
+                        </div>
+                    </div>
+                    <div class="d-flex gap-4">
+                        <div class="icon-box-circle">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-1">Visit Us</h5>
+                            <p class="text-muted mb-0">374 A Tower, William Road Blvd,<br>Melbourne 2721, IL, USA</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <h5 class="fw-bold mb-3">Follow Our Story</h5>
+                    <div class="d-flex gap-3">
+                        <a href="https://www.facebook.com/share/p/18A7LMnxLP/" target="_blank" class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;"><i class="fab fa-facebook-f text-primary"></i></a>
+                        <a href="https://x.com/jadav76178" target="_blank" class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;"><i class="fab fa-twitter text-primary"></i></a>
+                        <a href="https://www.linkedin.com/in/marketing-optix-ab24b83b9?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;"><i class="fab fa-linkedin-in text-primary"></i></a>
+                        <a href="https://instagram.com/MarketingOptix" target="_blank" class="btn btn-light rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;"><i class="fab fa-instagram text-primary"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="col-lg-7" data-aos="fade-left">
+                <div class="glass-panel p-5 rounded-5 shadow-lg border-0">
+                    <h3 class="fw-bold font-outfit mb-4">Send us a message</h3>
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-dark">Full Name</label>
+                                <input type="text" class="form-control" placeholder="Enter your name">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label small fw-bold text-dark">Email Address</label>
+                                <input type="email" class="form-control" placeholder="Enter your email">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-dark">Subject</label>
+                                <input type="text" class="form-control" placeholder="How can we help?">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-bold text-dark">Your Message</label>
+                                <textarea class="form-control" rows="5" placeholder="Tell us more about your needs..."></textarea>
+                            </div>
+                            <div class="col-12 pt-3">
+                                <button type="submit" class="btn bg-gradient-primary text-white w-100 py-3 rounded-pill fw-bold shadow-md hover-lift transition">
+                                    Send Message <i class="fas fa-paper-plane ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Embedded Map Placeholder -->
+        <div class="row mt-5 pt-5" data-aos="zoom-in">
+            <div class="col-12">
+                <div class="rounded-5 overflow-hidden shadow-lg border-0 glass-panel p-2" style="height: 400px;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d158858.47340002162!2d-0.24168144921176311!3d51.52855824176149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47d8a00baf21de75%3A0x52963a5addd52a99!2sLondon!5e0!3m2!1sen!2suk!4v1647000000000!5m2!1sen!2suk" width="100%" height="100%" style="border:0; border-radius: 20px;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

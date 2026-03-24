@@ -1,0 +1,267 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ target_user.username }}'s Profile | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-offWhite min-vh-100 position-relative">
+
+    <div class="container py-4 position-relative z-1">
+        <div class="row row-gap-5">
+            <!-- Left Sidebar: Basic Info -->
+            <div class="col-lg-4">
+                <div class="card glass-panel border-0 rounded-4 overflow-hidden text-center sticky-top" style="top: 100px;">
+                    <div class="card-body p-5">
+                        <div class="position-relative d-inline-block mb-4">
+                            {% if target_user.profilepic %}
+                                <img src="{{ target_user.profilepic.url }}"
+                                    class="rounded-circle shadow-lg border border-4 border-white"
+                                    style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-gradient-primary text-white rounded-circle shadow-lg mx-auto d-flex align-items-center justify-content-center"
+                                    style="width: 150px; height: 150px;">
+                                    <i class="fas fa-user-astronaut fa-4x opacity-75"></i>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <h2 class="fw-bolder mb-1 text-dark font-outfit">{{ target_user.username }}</h2>
+                        <span class="badge bg-indigo-100 text-indigo-700 rounded-pill px-3 py-1 fw-bold font-inter small mb-4">Strategic Strategist</span>
+
+                        <div class="d-flex justify-content-center gap-2 mb-4">
+                            <div class="text-warning">
+                                {% for i in rating_stars %}<i class="fas fa-star"></i>{% endfor %}
+                                {% for i in empty_stars %}<i class="far fa-star"></i>{% endfor %}
+                            </div>
+                            <span class="text-dark fw-bold">{{ avg_rating }}</span>
+                        </div>
+
+                        {% if target_user.userid == request.session.uid %}
+                        <div class="mb-4">
+                            <a href="{% url 'edit_profile' %}"
+                                class="btn btn-outline-primary rounded-pill w-100 shadow-sm hover-lift transition fw-semibold">
+                                <i class="fas fa-edit me-2"></i> Edit Profile
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        {% if request.session.uid and target_user.userid != request.session.uid %}
+                        <div class="mb-4">
+                            <a href="{% url 'chat_thread' target_user.userid %}"
+                                class="btn bg-gradient-primary text-white rounded-pill w-100 shadow-md hover-lift transition fw-semibold">
+                                <i class="fas fa-comment-dots me-2"></i> Message
+                            </a>
+                        </div>
+                        {% endif %}
+
+                        <div class="text-start bg-white bg-opacity-50 p-4 rounded-4 shadow-sm border border-white">
+                            <div class="mb-3">
+                                <label class="text-muted small d-block mb-1"><i class="fas fa-map-marker-alt text-primary me-2"></i> Location</label>
+                                <span class="text-dark fw-bold">{{ target_user.cityid.cityname|default:"Global" }}</span>
+                            </div>
+                            <div class="mb-0">
+                                <label class="text-muted small d-block mb-1"><i class="fas fa-envelope text-primary me-2"></i> Contact</label>
+                                <span class="text-dark fw-bold">{{ target_user.email }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content: Bio, Portfolio, Reviews -->
+            <div class="col-lg-8">
+                <div class="card glass-panel border-0 rounded-4 p-4 p-md-5 mb-5" data-aos="fade-left">
+                    <h3 class="fw-bolder mb-4 border-bottom pb-3 font-outfit text-dark"><i class="fas fa-user-astronaut text-primary me-3"></i>About Me</h3>
+                    <p class="text-muted lh-lg mb-0 font-inter">
+                        {{ target_user.bio|default:"No bio available yet. This user is a dedicated professional in the marketing space." }}
+                    </p>
+                </div>
+
+                <!-- Languages Section -->
+                <div class="card glass-panel border-0 rounded-4 p-4 p-md-5 mb-5" data-aos="fade-left" data-aos-delay="50">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-light pb-3">
+                        <h3 class="fw-bolder mb-0 font-outfit text-dark"><i class="fas fa-language text-primary me-3"></i>Languages</h3>
+                        {% if target_user.userid == request.session.uid %}
+                        <button class="btn btn-outline-primary rounded-pill btn-sm px-4 fw-semibold shadow-sm hover-lift transition" data-bs-toggle="collapse"
+                            data-bs-target="#languageCollapse">
+                            <i class="fas fa-plus me-2"></i> Add Language
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    {% if target_user.userid == request.session.uid %}
+                    <div class="collapse mb-4" id="languageCollapse">
+                        <div class="bg-white bg-opacity-75 p-4 rounded-4 border border-light shadow-sm">
+                            <form action="{% url 'add_language' %}" method="POST">
+                                {% csrf_token %}
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-9">
+                                        <label class="form-label small fw-semibold text-dark-200">Language Name</label>
+                                        <input type="text" name="language" class="form-control bg-white shadow-sm border-0 focus-none"
+                                            placeholder="e.g. English, Hindi, Spanish..." required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn bg-gradient-primary text-white w-100 rounded-pill shadow-sm fw-semibold hover-lift transition">Add</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for lang in languages %}
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 fs-6 d-inline-flex align-items-center gap-2 shadow-sm">
+                            <i class="fas fa-globe-americas"></i> {{ lang.language }}
+                            {% if target_user.userid == request.session.uid %}
+                            <a href="{% url 'delete_language' lang.userlanguageid %}"
+                                class="text-danger ms-1 text-decoration-none"
+                                onclick="return confirm('Remove {{ lang.language }}?')"
+                                title="Remove">
+                                <i class="fas fa-times-circle small"></i>
+                            </a>
+                            {% endif %}
+                        </span>
+                        {% empty %}
+                        <p class="text-muted fw-medium font-inter mb-0">No languages added yet.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Portfolio Showcase -->
+                <div class="card glass-panel border-0 rounded-4 p-4 p-md-5 mb-5" data-aos="fade-left" data-aos-delay="100">
+                    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-light pb-3">
+                        <h3 class="fw-bolder mb-0 font-outfit text-dark"><i class="fas fa-briefcase text-primary me-3"></i>Work Portfolio</h3>
+                        {% if target_user.userid == request.session.uid %}
+                        <button class="btn btn-outline-primary rounded-pill btn-sm px-4 fw-semibold shadow-sm hover-lift transition" data-bs-toggle="collapse"
+                            data-bs-target="#uploadCollapse">
+                            <i class="fas fa-plus me-2"></i> Add Item
+                        </button>
+                        {% endif %}
+                    </div>
+
+                    {% if target_user.userid == request.session.uid %}
+                    <div class="collapse mb-4" id="uploadCollapse">
+                        <div class="bg-white bg-opacity-75 p-4 rounded-4 border border-light shadow-sm">
+                            <form action="{% url 'upload_portfolio' %}" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row g-3 align-items-end">
+                                    <div class="col-md-9">
+                                        <label class="form-label small fw-semibold text-dark-200">Upload an image of your work</label>
+                                        <input type="file" name="image" class="form-control bg-white shadow-sm border-0 focus-none" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn bg-gradient-primary text-white w-100 rounded-pill shadow-sm fw-semibold hover-lift transition">Upload</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="row row-cols-2 row-cols-md-3 g-3">
+                        {% for img in portfolio %}
+                        <div class="col position-relative group-hover">
+                            <div class="ratio ratio-1x1 rounded-4 overflow-hidden shadow-sm">
+                                <img src="{{ img.imageurl.url }}" class="img-fluid object-fit-cover transition hover-scale-img"
+                                    alt="Portfolio item">
+                            </div>
+                            {% if target_user.userid == request.session.uid %}
+                            <a href="{% url 'delete_portfolio' img.userimageid %}"
+                                class="btn btn-danger btn-sm rounded-circle position-absolute top-0 end-0 m-2 shadow d-none-hover"
+                                style="width: 32px; height: 32px;"
+                                onclick="return confirm('Remove this image from portfolio?')">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center py-5">
+                            <div class="bg-white bg-opacity-50 rounded-circle text-muted d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px;">
+                                <i class="fas fa-images fa-2x opacity-50"></i>
+                            </div>
+                            <p class="text-muted fw-medium font-inter">No portfolio items yet.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Reviews Section -->
+                <div class="card glass-panel border-0 rounded-4 p-4 p-md-5" data-aos="fade-left" data-aos-delay="200">
+                    <h3 class="fw-bolder mb-4 border-bottom border-light pb-3 font-outfit text-dark"><i class="fas fa-star text-warning me-3"></i>Client
+                        Feedback</h3>
+                    <div class="row row-gap-4">
+                        {% for r in reviews %}
+                        <div class="col-12">
+                            <div class="bg-white bg-opacity-75 p-4 rounded-4 shadow-sm border border-light transition hover-lift hover-white">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="d-flex align-items-center gap-3">
+                                        <div class="bg-primary-subtle text-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center"
+                                            style="width: 45px; height: 45px;">
+                                            <i class="fas fa-user-circle fa-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h6 class="fw-bolder mb-0 text-dark font-outfit"><a href="{% url 'profile' r.client_user.userid %}" class="text-dark text-decoration-none hover-primary transition">{{ r.client_user.username }}</a></h6>
+                                            <span class="text-muted small fw-medium">{{ r.reviewdate|date:"F Y" }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-warning fs-6">
+                                        {% with ''|center:r.rating as range %}
+                                        {% for _ in range %}<i class="fas fa-star"></i>{% endfor %}
+                                        {% endwith %}
+                                    </div>
+                                </div>
+                                <p class="text-dark-200 fw-medium font-inter mb-0 lh-base">{{ r.review }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-12 text-center py-4">
+                            <p class="text-muted opacity-50">No reviews yet for this user.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+
+    .group-hover:hover .transition {
+        transform: scale(1.1);
+    }
+
+    .group-hover:hover .d-none-hover {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 25px;
+        height: 25px;
+    }
+
+    .d-none-hover {
+        display: none !important;
+    }
+
+    .transition {
+        transition: all 0.3s ease;
+    }
+
+    .x-small {
+        font-size: 0.75rem;
+    }
+
+    .object-fit-cover {
+        object-fit: cover;
+    }
+
+    .shadow-link:hover {
+        text-shadow: 0 0 10px rgba(13, 110, 253, 0.2);
+    }
+</style>
+{% endblock %}

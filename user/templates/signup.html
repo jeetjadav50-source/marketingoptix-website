@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Sign Up | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="min-vh-100 d-flex align-items-center position-relative overflow-hidden py-150">
+    <!-- Sophisticated Live Background -->
+    <div class="marketing-mesh"></div>
+    <div class="optix-blob blob-1"></div>
+    <div class="optix-blob blob-2"></div>
+    <div class="optix-blob blob-3"></div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+
+                <div class="card glass-panel border-0 p-4 p-md-5 rounded-5 shadow-2xl" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="text-center mb-5">
+                        <div class="bg-gradient-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-lg pulse-purple" style="width: 80px; height: 80px;">
+                            <i class="fas fa-user-plus fa-2x"></i>
+                        </div>
+                        <h2 class="fw-bolder text-dark font-outfit mb-2">Create Your Strategic Account</h2>
+                        <p class="text-muted font-inter">Join the next generation of marketing intelligence.</p>
+                    </div>
+
+                    <form method="POST" enctype="multipart/form-data" class="needs-validation">
+                        {% csrf_token %}
+
+                        <!-- Basic Credentials -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Username</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i class="fas fa-user-circle"></i></span>
+                                    <input type="text" name="username" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" placeholder="Choose a handle" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Email Address</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i class="fas fa-paper-plane"></i></span>
+                                    <input type="email" name="email" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" placeholder="email@example.com" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Role & Profile Pic -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Profile Image</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i class="fas fa-camera"></i></span>
+                                    <input type="file" name="profilepic" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Date of Birth</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i class="fas fa-calendar-alt"></i></span>
+                                    <input type="date" name="dob" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strategic Identity Selection -->
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Identify As</label>
+                                <div class="d-flex gap-3 p-3 bg-white bg-opacity-50 rounded-3 border border-light shadow-sm">
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="role" id="role_client" value="client" checked required>
+                                        <label class="form-check-label text-dark-200 cursor-pointer fw-medium" for="role_client">Client</label>
+                                    </div>
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="role" id="role_marketer" value="marketer" required>
+                                        <label class="form-check-label text-dark-200 cursor-pointer fw-medium" for="role_marketer">Marketer</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Gender</label>
+                                <div class="d-flex gap-3 p-3 bg-white bg-opacity-50 rounded-3 border border-light shadow-sm">
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="gender" id="gender_male" value="male" checked required>
+                                        <label class="form-check-label text-dark-200 cursor-pointer fw-medium" for="gender_male">Male</label>
+                                    </div>
+                                    <div class="form-check custom-radio">
+                                        <input class="form-check-input border-secondary" type="radio" name="gender" id="gender_female" value="female" required>
+                                        <label class="form-check-label text-dark-200 cursor-pointer fw-medium" for="gender_female">Female</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Security Phrase (Password)</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i class="fas fa-shield-alt"></i></span>
+                                    <input type="password" name="pwd" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" placeholder="••••••••" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold text-dark-200">Verify Phrase</label>
+                                <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                    <span class="input-group-text bg-white border-0 text-primary ps-4"><i class="fas fa-check-double"></i></span>
+                                    <input type="password" name="cpwd" class="form-control bg-white border-0 py-3 ps-3 focus-none fs-6" placeholder="••••••••" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-5">
+                            <button type="submit" name="submit" id="signup_btn" class="btn bg-gradient-secondary text-white btn-lg w-100 rounded-pill shadow-lg hover-lift transition-all fw-bolder font-outfit py-3">
+                                Sign Up <i class="fas fa-user-plus ms-2"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <p class="text-center mt-4 mb-0">
+                        <span class="text-muted font-inter fw-medium">Already part of the network?</span>
+                        <a href="{% url 'login' %}" class="text-secondary fw-bold ms-1 text-decoration-none hover-opacity">Login Now</a>
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes blobFloat {
+        0% { transform: translate(0, 0) scale(1.1); }
+        50% { transform: translate(-30px, 30px) scale(1); }
+        100% { transform: translate(0, 0) scale(1.1); }
+    }
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+
+    .bg-gradient-secondary {
+        background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%) !important;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.5) !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 0 0 0.25rem rgba(168, 85, 247, 0.1);
+        border-color: #a855f7 !important;
+    }
+    .input-group-text {
+        background: rgba(255, 255, 255, 0.5) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+    }
+
+    .pulse-purple {
+        animation: pulsePurple 2s infinite;
+    }
+    @keyframes pulsePurple {
+        0% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4); }
+        70% { box-shadow: 0 0 0 20px rgba(168, 85, 247, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+    }
+
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Terms of Service | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="legal-page py-5 position-relative overflow-hidden">
+    <style>
+        .legal-page {
+            padding: 120px 0 80px;
+        }
+        .legal-content {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 32px;
+            padding: 60px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+        }
+        .legal-section {
+            margin-bottom: 40px;
+        }
+        .legal-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        .legal-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h1 class="display-4 fw-bolder font-outfit mb-3">Terms of <span class="text-gradient">Service</span></h1>
+            <p class="text-muted">Last updated: March 22, 2024</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <div class="legal-content">
+                    <div class="legal-section">
+                        <h3>1. Agreement to Terms</h3>
+                        <p class="text-muted leading-relaxed">By accessing our website at MarketingOptix, you are agreeing to be bound by these terms of service, all applicable laws and regulations, and agree that you are responsible for compliance with any applicable local laws.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>2. Use License</h3>
+                        <p class="text-muted leading-relaxed">Permission is granted to temporarily download one copy of the materials (information or software) on MarketingOptix's website for personal, non-commercial transitory viewing only.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>3. Disclaimer</h3>
+                        <p class="text-muted leading-relaxed">The materials on MarketingOptix's website are provided on an 'as is' basis. MarketingOptix makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>4. Limitations</h3>
+                        <p class="text-muted leading-relaxed">In no event shall MarketingOptix or its suppliers be liable for any damages (including, without limitation, damages for loss of data or profit, or due to business interruption) arising out of the use or inability to use the materials on MarketingOptix's website.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>5. Governing Law</h3>
+                        <p class="text-muted leading-relaxed">These terms and conditions are governed by and construed in accordance with the laws of the jurisdiction in which MarketingOptix operates and you irrevocably submit to the exclusive jurisdiction of the courts in that State or location.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

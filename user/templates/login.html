@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="min-vh-100 d-flex align-items-center position-relative overflow-hidden py-5">
+    <!-- Sophisticated Live Background -->
+    <div class="marketing-mesh"></div>
+    <div class="optix-blob blob-1"></div>
+    <div class="optix-blob blob-2"></div>
+    <div class="optix-blob blob-3"></div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+
+                <div class="card glass-panel border-0 p-5 rounded-5 shadow-2xl" data-aos="zoom-in" data-aos-duration="1000">
+                    <div class="text-center mb-5">
+                        <div class="bg-gradient-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-lg pulse-blue" style="width: 80px; height: 80px;">
+                            <i class="fas fa-lock-open fa-2x"></i>
+                        </div>
+                        <h2 class="fw-bold text-dark-300 mb-2">Welcome Back!</h2>
+                        <p class="text-muted">Login to your account to continue.</p>
+                    </div>
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i
+                                        class="fa-solid fa-user text-muted"></i></span>
+                                <input type="text" name="username" class="form-control bg-light border-start-0 ps-0"
+                                    placeholder="Enter your username" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i
+                                        class="fa-solid fa-lock text-muted"></i></span>
+                                <input type="password" name="pwd" class="form-control bg-light border-start-0 ps-0"
+                                    placeholder="Please Enter Password" required>
+                            </div>
+                        </div>
+                        {{error}}
+                        <div class="mt-5">
+                            <button type="submit" name="submit" value="Login" class="btn bg-gradient-primary text-white btn-lg w-100 rounded-pill shadow-lg hover-lift transition-all fw-bolder font-outfit py-3">
+                                Sign In <i class="fas fa-right-to-bracket ms-2"></i>
+                            </button>
+                        </div>
+
+                    </form>
+
+                    <p class="text-center mt-4">
+                        <span class="text-muted">Don't have an account?</span>
+                        <a href="{% url 'signup' %}" class="text-lime-300 fw-bold ms-1">Sign Up</a>
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes blobFloat {
+        0% { transform: translate(0, 0) scale(1.1); }
+        50% { transform: translate(-30px, 30px) scale(1); }
+        100% { transform: translate(0, 0) scale(1.1); }
+    }
+
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.5) !important;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        transition: all 0.3s ease;
+    }
+    .form-control:focus {
+        background: rgba(255, 255, 255, 0.8) !important;
+        box-shadow: 0 0 0 0.25rem rgba(99, 102, 241, 0.1);
+        border-color: #6366f1 !important;
+    }
+    .input-group-text {
+        background: rgba(255, 255, 255, 0.5) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
+        border-right: none !important;
+    }
+    .form-control {
+        border-left: none !important;
+    }
+
+    .pulse-blue {
+        animation: pulseBlue 2s infinite;
+    }
+    @keyframes pulseBlue {
+        0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+        70% { box-shadow: 0 0 0 20px rgba(99, 102, 241, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+    }
+
+    .shadow-2xl {
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+</style>
+{% endblock %}

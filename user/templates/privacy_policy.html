@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Privacy Policy | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="legal-page py-5 position-relative overflow-hidden">
+    <style>
+        .legal-page {
+            padding: 120px 0 80px;
+        }
+        .legal-content {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 32px;
+            padding: 60px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.05);
+        }
+        .legal-section {
+            margin-bottom: 40px;
+        }
+        .legal-section h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+        .legal-section h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 40px;
+            height: 3px;
+            background: var(--gradient-primary);
+            border-radius: 2px;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h1 class="display-4 fw-bolder font-outfit mb-3">Privacy <span class="text-gradient">Policy</span></h1>
+            <p class="text-muted">Last updated: March 22, 2024</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-10" data-aos="fade-up" data-aos-delay="100">
+                <div class="legal-content">
+                    <div class="legal-section">
+                        <h3>1. Introduction</h3>
+                        <p class="text-muted leading-relaxed">Welcome to MarketingOptix. We respect your privacy and are committed to protecting your personal data. This privacy policy will inform you as to how we look after your personal data when you visit our website and tell you about your privacy rights and how the law protects you.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>2. Data We Collect</h3>
+                        <p class="text-muted leading-relaxed">We may collect, use, store and transfer different kinds of personal data about you which we have grouped together as follows:</p>
+                        <ul class="text-muted leading-relaxed">
+                            <li>Identity Data (Name, username)</li>
+                            <li>Contact Data (Email address, phone number)</li>
+                            <li>Technical Data (IP address, browser type)</li>
+                            <li>Profile Data (Interests, preferences, feedback)</li>
+                        </ul>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>3. How We Use Your Data</h3>
+                        <p class="text-muted leading-relaxed">We will only use your personal data when the law allows us to. Most commonly, we will use your personal data in the following circumstances:</p>
+                        <ul class="text-muted leading-relaxed">
+                            <li>To register you as a new customer.</li>
+                            <li>To process and deliver your orders.</li>
+                            <li>To manage our relationship with you.</li>
+                            <li>To improve our website, products/services, marketing, customer relationships and experiences.</li>
+                        </ul>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>4. Data Security</h3>
+                        <p class="text-muted leading-relaxed">We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorized way, altered or disclosed.</p>
+                    </div>
+
+                    <div class="legal-section">
+                        <h3>5. Your Rights</h3>
+                        <p class="text-muted leading-relaxed">Under certain circumstances, you have rights under data protection laws in relation to your personal data, including the right to request access, correction, erasure, or restriction of your personal data.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

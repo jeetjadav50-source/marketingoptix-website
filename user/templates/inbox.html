@@ -1,0 +1,32 @@
+{% extends 'chat_layout.html' %}
+{% load static %}
+
+{% block title %}Inbox | MarketingOptix{% endblock %}
+
+{% block chat_content %}
+<div class="h-100 d-flex flex-column align-items-center justify-content-center py-5 text-center px-4" data-aos="zoom-in">
+    <div class="bg-gradient-primary text-white rounded-circle d-flex align-items-center justify-content-center mb-4 shadow-lg pulse-glow" style="width: 120px; height: 120px;">
+        <i class="far fa-comments fa-4x opacity-75"></i>
+    </div>
+    <h2 class="fw-bolder font-outfit text-white mb-3">Strategic Communications</h2>
+    <p class="text-white-50 font-inter mb-5 fs-5" style="max-width: 450px;">
+        Select a conversation from the sidebar to begin collaborating, negotiating, or finalizing project details.
+    </p>
+    <div class="d-flex gap-3">
+        <a href="{% url 'home' %}" class="btn bg-white bg-opacity-10 text-white rounded-pill px-5 py-3 shadow-md hover-lift transition fw-bold border border-light border-opacity-20 d-flex align-items-center gap-2">
+            <i class="fas fa-search"></i> Find Partners
+        </a>
+    </div>
+</div>
+
+<style>
+    .pulse-glow {
+        animation: pulseGlow 3s infinite ease-in-out;
+    }
+    @keyframes pulseGlow {
+        0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+        70% { box-shadow: 0 0 0 30px rgba(99, 102, 241, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+    }
+</style>
+{% endblock %}

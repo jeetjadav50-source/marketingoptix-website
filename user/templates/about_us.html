@@ -1,0 +1,203 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us | MarketingOptix{% endblock %}
+
+{% block content %}
+<!-- About Hero -->
+<section class="about-hero position-relative py-5 overflow-hidden">
+  <style>
+    .about-hero {
+      padding: 120px 0 80px;
+    }
+    .text-gradient {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 24px;
+      transition: transform 0.3s ease;
+    }
+    .glass-card:hover {
+      transform: translateY(-5px);
+    }
+    .stat-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .team-card {
+      position: relative;
+      border-radius: 30px;
+      overflow: hidden;
+      group-hover: scale(1.05);
+    }
+    .team-img-wrapper {
+        aspect-ratio: 1/1.2;
+        overflow: hidden;
+    }
+    .team-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .team-card:hover .team-img {
+      transform: scale(1.1);
+    }
+    .team-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+        color: white;
+    }
+  </style>
+
+  <div class="container py-5">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6" data-aos="fade-right">
+        <h6 class="text-primary fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">Our Journey</h6>
+        <h1 class="display-3 fw-bolder font-outfit mb-4" style="letter-spacing: -2px;">
+          Revolutionizing <span class="text-gradient">Marketing</span> Connections
+        </h1>
+        <p class="lead text-muted mb-5">
+          At MarketingOptix, we bridge the gap between creative brilliance and strategic business needs. Our platform is a curated ecosystem where elite marketers and ambitious companies co-create success stories.
+        </p>
+        <div class="row g-4">
+          <div class="col-6">
+              <div class="p-4 glass-card shadow-sm border-light">
+                  <div class="stat-number text-primary mb-2">10k+</div>
+                  <div class="fw-bold text-dark small text-uppercase">Projects Delivered</div>
+              </div>
+          </div>
+          <div class="col-6">
+              <div class="p-4 glass-card shadow-sm border-light">
+                  <div class="stat-number text-purple-600 mb-2">500+</div>
+                  <div class="fw-bold text-dark small text-uppercase">Elite Marketers</div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6" data-aos="fade-left">
+        <div class="position-relative">
+          <div class="glass-card p-2 shadow-lg overflow-hidden">
+             <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" class="img-fluid rounded-4" alt="Team Work">
+          </div>
+          <!-- Decorative element -->
+          <div class="position-absolute top-100 start-0 translate-middle-y ms-n4 mt-n4 bg-gradient-primary rounded-pill p-4 shadow-lg d-none d-md-block" style="z-index: 5;">
+              <i class="fas fa-quote-left text-white fa-2x"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Values Section -->
+<section class="values-section py-5 bg-light bg-opacity-50">
+  <div class="container py-5">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="display-5 fw-bold font-outfit mb-3">Our Core Values</h2>
+        <p class="text-muted mx-auto" style="max-width: 600px;">Driven by data, inspired by creativity, and committed to transparency in every interaction.</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="p-5 glass-card text-center h-100 border-0 shadow-sm">
+                <div class="bg-primary-subtle rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                    <i class="fas fa-bolt text-primary fs-3"></i>
+                </div>
+                <h4 class="fw-bold font-outfit mb-3">Innovation</h4>
+                <p class="text-muted small">Constant pursuit of new boundaries in marketing technologies and strategies.</p>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+            <div class="p-5 glass-card text-center h-100 border-0 shadow-sm">
+                <div class="bg-info-subtle rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                    <i class="fas fa-shield-alt text-info fs-3"></i>
+                </div>
+                <h4 class="fw-bold font-outfit mb-3">Integrity</h4>
+                <p class="text-muted small">Ensuring absolute clarity and fairness in our marketplace for all stakeholders.</p>
+            </div>
+        </div>
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="p-5 glass-card text-center h-100 border-0 shadow-sm">
+                <div class="bg-warning-subtle rounded-circle d-inline-flex align-items-center justify-content-center mb-4" style="width: 70px; height: 70px;">
+                    <i class="fas fa-users text-warning fs-3"></i>
+                </div>
+                <h4 class="fw-bold font-outfit mb-3">Collaboration</h4>
+                <p class="text-muted small">Fostering deep partnerships between brands and talent for exponential growth.</p>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section py-5">
+  <div class="container py-5">
+    <div class="text-center mb-5" data-aos="fade-up">
+        <h2 class="display-5 fw-bold font-outfit mb-3">Meet the Visionaries</h2>
+        <p class="text-muted mx-auto" style="max-width: 600px;">The passionate team behind the engine of MarketingOptix.</p>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="team-card shadow-lg">
+                <div class="team-img-wrapper">
+                    <img src="{% static 'assets/img/team/ceo.png' %}" class="team-img" alt="Alex Rivard">
+                </div>
+                <div class="team-info">
+                    <h5 class="mb-0 fw-bold">Alex Rivard</h5>
+                    <p class="small mb-0 opacity-75">Founder & CEO</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="team-card shadow-lg">
+                <div class="team-img-wrapper">
+                    <img src="{% static 'assets/img/team/cto.png' %}" class="team-img" alt="Elena Soren">
+                </div>
+                <div class="team-info">
+                    <h5 class="mb-0 fw-bold">Elena Soren</h5>
+                    <p class="small mb-0 opacity-75">Chief Technology Officer</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="team-card shadow-lg">
+                <div class="team-img-wrapper">
+                    <img src="{% static 'assets/img/team/marketing.png' %}" class="team-img" alt="Julian Reed">
+                </div>
+                <div class="team-info">
+                    <h5 class="mb-0 fw-bold">Julian Reed</h5>
+                    <p class="small mb-0 opacity-75">Marketing Director</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section py-5">
+    <div class="container py-5">
+        <div class="glass-panel p-5 rounded-5 shadow-lg text-center bg-gradient-primary text-white" data-aos="zoom-in">
+            <h2 class="display-6 fw-bold mb-4 font-outfit">Ready to grow your mission?</h2>
+            <p class="lead mb-5 opacity-75">Join thousands of brands creating the future of marketing today.</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="{% url 'signup' %}" class="btn btn-light rounded-pill px-5 py-3 fw-bold text-primary shadow-sm hover-lift">Get Started Free</a>
+                <a href="{% url 'home' %}" class="btn btn-outline-light rounded-pill px-5 py-3 fw-bold hover-lift">Explore Projects</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}FAQ's | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="faq-section py-5 position-relative overflow-hidden">
+    <style>
+        .faq-section {
+            padding: 120px 0 80px;
+        }
+        .faq-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            border-radius: 24px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+        .accordion-item {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        .accordion-item:last-child {
+            border-bottom: none;
+        }
+        .accordion-button {
+            background: transparent !important;
+            padding: 25px 30px;
+            font-weight: 600;
+            color: #1a1a1a;
+            box-shadow: none !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+        }
+        .accordion-button:not(.collapsed) {
+            color: #6366f1;
+        }
+        .accordion-body {
+            padding: 0 30px 30px;
+            color: #666;
+            line-height: 1.7;
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+
+    <div class="container py-5">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h6 class="text-primary fw-bold text-uppercase mb-3" style="letter-spacing: 2px;">Frequently Asked Questions</h6>
+            <h1 class="display-4 fw-bolder font-outfit mb-4" style="letter-spacing: -2px;">
+                Find Your <span class="text-gradient">Answers</span>
+            </h1>
+            <p class="lead text-muted mx-auto" style="max-width: 700px;">
+                Everything you need to know about the MarketingOptix platform. Can't find what you're looking for? Reach out to us.
+            </p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-9" data-aos="fade-up" data-aos-delay="100">
+                <div class="faq-card">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                    How does MarketingOptix work?
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    MarketingOptix is a curated marketplace that connects elite marketing talent with companies seeking high-impact solutions. Brands post projects, and our verified experts submit quotations based on their strategic approach.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                    Are the marketers on your platform verified?
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Yes, we have a rigorous vetting process for all marketers. We evaluate their portfolio, past performance, and strategic expertise to ensure that only top-tier talent is available for your projects.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                    What are the payment terms?
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Payments are handled securely through our platform. Brands pay into an escrow-style system when a project starts, and funds are released to the marketer upon successful completion and review of deliverables.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+                                    Can I communicate directly with the marketer?
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Absolutely. Once a quotation is accepted, our integrated chat system allows for seamless communication, file sharing, and project tracking throughout the entire lifecycle.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+                                    What if I'm not satisfied with the work?
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    We strive for 100% satisfaction. If there are issues with deliverables, our support team can mediate disputes based on the initial project scope and agreed-upon milestones.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-5">
+                    <p class="text-muted">Still have questions? <a href="{% url 'help_support' %}" class="text-primary fw-bold text-decoration-none">Visit Help Center</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

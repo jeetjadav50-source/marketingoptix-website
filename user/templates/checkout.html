@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Secure Checkout | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="checkout-page py-5 min-vh-100 position-relative overflow-hidden bg-offWhite d-flex align-items-center">
+    <!-- Mesh Background from Global Styles -->
+    <div class="marketing-mesh"></div>
+    
+    <div class="container position-relative z-1" style="padding-top: 100px;">
+        <div class="text-center mb-5" data-aos="fade-down">
+            <h1 class="display-5 fw-bolder font-outfit text-dark" style="letter-spacing: -1.5px;">
+                <i class="fas fa-lock text-success me-2"></i> Secure <span class="text-gradient">Checkout</span>
+            </h1>
+            <p class="text-muted fs-5">You are about to hire <strong>{{ marketer.username }}</strong> for Mission: {{ p.title }}</p>
+        </div>
+
+        <div class="row justify-content-center row-gap-5">
+            
+            <!-- Order Summary -->
+            <div class="col-lg-5 col-xl-4 order-lg-2" data-aos="fade-left">
+                <div class="card glass-panel border-0 shadow-lg rounded-4 overflow-hidden sticky-top" style="top: 120px;">
+                    <div class="bg-dark text-white p-4">
+                        <h4 class="fw-bolder mb-0 font-outfit">Escrow Details</h4>
+                        <p class="small text-white-50 mb-0">Funds are held securely until completion.</p>
+                    </div>
+                    <div class="card-body p-4 p-md-5 bg-white">
+                        <div class="d-flex align-items-center gap-3 mb-4 border-bottom pb-4">
+                            <div class="avatar-ring-sm p-1 rounded-circle border border-2 border-primary shadow-sm overflow-hidden" style="width: 50px; height: 50px;">
+                                {% if marketer.profilepic %}
+                                <img src="{{ marketer.profilepic.url }}" class="w-100 h-100 rounded-circle" style="object-fit: cover;">
+                                {% else %}
+                                <div class="bg-gradient-primary text-white w-100 h-100 d-flex_align-items-center justify-content-center rounded-circle">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <h6 class="fw-bold mb-0 text-dark">{{ marketer.username }}</h6>
+                                <span class="text-muted small">Strategic Partner</span>
+                            </div>
+                        </div>
+
+                        <ul class="list-unstyled mb-4 font-inter">
+                            <li class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Quotation Budget</span>
+                                <span class="fw-semibold text-dark">₹{{ budget }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3">
+                                <span class="text-muted">Platform Fee (5%)</span>
+                                <span class="fw-semibold text-dark">₹{{ platform_fee|floatformat:2 }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between mb-3 border-bottom pb-3">
+                                <span class="text-muted">GST (18% on fee)</span>
+                                <span class="fw-semibold text-dark">₹{{ gst|floatformat:2 }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between mt-3">
+                                <span class="fw-bold fs-5 text-dark">Total Amount</span>
+                                <span class="fw-bolder fs-4 text-success">₹{{ total_amount|floatformat:2 }}</span>
+                            </li>
+                        </ul>
+
+                        <div class="alert bg-success-subtle text-success border-0 rounded-3 small mb-0 font-inter">
+                            <i class="fas fa-shield-alt me-1"></i> Your payment is encrypted and secured by 256-bit SSL.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="col-lg-7 col-xl-6 order-lg-1" data-aos="fade-right">
+                <div class="card glass-panel border-0 shadow-2xl rounded-5 overflow-hidden">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <h4 class="fw-bolder mb-4 font-outfit border-bottom pb-3">Payment Method</h4>
+                        
+                        <!-- Tabs -->
+                        <ul class="nav nav-pills mb-4 gap-2" id="payment-tabs" role="tablist">
+                            <li class="nav-item flex-grow-1 text-center" role="presentation">
+                                <button class="nav-link active w-100 rounded-pill fw-bold border" id="card-tab" data-bs-toggle="pill" data-bs-target="#card-payment" type="button" role="tab">
+                                    <i class="far fa-credit-card me-2"></i> Credit/Debit Card
+                                </button>
+                            </li>
+                            <li class="nav-item flex-grow-1 text-center" role="presentation">
+                                <button class="nav-link w-100 rounded-pill fw-bold border text-dark bg-white hover-bg-light" id="upi-tab" data-bs-toggle="pill" data-bs-target="#upi-payment" type="button" role="tab">
+                                    <i class="fas fa-mobile-alt me-2"></i> UPI
+                                </button>
+                            </li>
+                        </ul>
+
+                        <!-- Tab Content -->
+                        <div class="tab-content" id="payment-tabs-content">
+                            <!-- Card Payment -->
+                            <div class="tab-pane fade show active" id="card-payment" role="tabpanel">
+                                <div class="mb-4 position-relative">
+                                    <label class="form-label text-muted fw-semibold small text-uppercase font-inter">Card Number</label>
+                                    <div class="input-group input-group-lg bg-light rounded-4 overflow-hidden border">
+                                        <span class="input-group-text bg-transparent border-0"><i class="far fa-credit-card text-muted"></i></span>
+                                        <input type="text" class="form-control border-0 bg-transparent shadow-none font-monospace fs-5" placeholder="0000 0000 0000 0000" maxlength="19" onkeyup="formatCard(this)">
+                                        <span class="input-group-text bg-transparent border-0"><i class="fab fa-cc-visa text-muted fs-4"></i></span>
+                                    </div>
+                                </div>
+                                <div class="row g-4 mb-4">
+                                    <div class="col-6">
+                                        <label class="form-label text-muted fw-semibold small text-uppercase font-inter">Expiry Date</label>
+                                        <input type="text" class="form-control form-control-lg bg-light rounded-4 border font-monospace fs-5" placeholder="MM/YY" maxlength="5" onkeyup="formatExpiry(this)">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label text-muted fw-semibold small text-uppercase font-inter">CVV</label>
+                                        <input type="password" class="form-control form-control-lg bg-light rounded-4 border font-monospace fs-5" placeholder="•••" maxlength="3">
+                                    </div>
+                                </div>
+                                <div class="mb-5">
+                                    <label class="form-label text-muted fw-semibold small text-uppercase font-inter">Cardholder Name</label>
+                                    <input type="text" class="form-control form-control-lg bg-light rounded-4 border fw-medium" placeholder="MARKETING OPTIX CEO">
+                                </div>
+                            </div>
+
+                            <!-- UPI Payment -->
+                            <div class="tab-pane fade" id="upi-payment" role="tabpanel">
+                                <div class="text-center py-4">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e1/UPI-Logo-vector.svg" height="40" class="mb-4">
+                                    <p class="text-muted mb-4 font-inter">Enter your Virtual Payment Address (VPA)</p>
+                                    <div class="input-group input-group-lg bg-light rounded-4 overflow-hidden border mx-auto" style="max-width: 400px;">
+                                        <input type="text" class="form-control border-0 bg-transparent shadow-none text-center fs-5" placeholder="username@upi">
+                                    </div>
+                                    <p class="small text-muted mt-3">You will receive a payment request on your UPI app.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Real Payment Form (Hidden) -->
+                        <form method="POST" action="{% url 'process_payment' q.quotationid %}" id="realPaymentForm">
+                            {% csrf_token %}
+                            <input type="hidden" name="total_amount" value="{{ total_amount|floatformat:2 }}">
+                            
+                            <button type="button" id="payButton" class="btn bg-gradient-success text-white w-100 rounded-pill py-3 fs-5 fw-bolder shadow-lg hover-scale transition position-relative overflow-hidden">
+                                <span class="btn-text">Pay Securely  &nbsp;₹{{ total_amount|floatformat:2 }}</span>
+                                <div class="spinner-border spinner-border-sm text-white position-absolute top-50 start-50 translate-middle d-none" role="status" id="paySpinner">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </form>
+
+                        <div class="text-center mt-4 text-muted small font-inter">
+                            <i class="fas fa-lock me-1"></i> Powered by MarketingOptix Secure Escrow
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Formatting Helpers for visual flair
+    function formatCard(e) {
+        let v = e.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        let matches = v.match(/\d{4,16}/g);
+        let match = matches && matches[0] || '';
+        let parts = [];
+        for (let i = 0, len = match.length; i < len; i += 4) {
+            parts.push(match.substring(i, i + 4));
+        }
+        if (parts.length) {
+            e.value = parts.join(' ');
+        } else {
+            e.value = v;
+        }
+    }
+
+    function formatExpiry(e) {
+        let v = e.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+        if (v.length >= 2) {
+            e.value = v.substring(0, 2) + '/' + v.substring(2, 4);
+        } else {
+            e.value = v;
+        }
+    }
+
+    // Payment Simulation Logic
+    document.getElementById('payButton').addEventListener('click', function() {
+        // Validation check (mock)
+        const isCardMode = document.getElementById('card-tab').classList.contains('active');
+        let isValid = true;
+        
+        if (isCardMode) {
+            const inputs = document.querySelectorAll('#card-payment input');
+            inputs.forEach(inp => { if(inp.value.trim() === '') isValid = false; });
+        } else {
+            const inputs = document.querySelectorAll('#upi-payment input');
+            inputs.forEach(inp => { if(inp.value.trim() === '') isValid = false; });
+        }
+
+        if(!isValid) {
+            showOptixToast('error', "Please fill in all payment details to proceed.");
+            return;
+        }
+
+        // Trigger Animation
+        const btn = this;
+        const btnText = btn.querySelector('.btn-text');
+        const spinner = document.getElementById('paySpinner');
+        const form = document.getElementById('realPaymentForm');
+
+        btnText.style.opacity = '0';
+        spinner.classList.remove('d-none');
+        btn.classList.add('disabled');
+        btn.style.cursor = 'wait';
+
+        // Simulate 2 second network delay for payment processing
+        setTimeout(() => {
+            btn.classList.remove('bg-gradient-success');
+            btn.style.backgroundColor = '#10b981';
+            spinner.classList.add('d-none');
+            btnText.innerHTML = '<i class="fas fa-check-circle me-2"></i> Payment Successful';
+            btnText.style.opacity = '1';
+            
+            // Wait 500ms after success checkmark, then submit real form
+            setTimeout(() => {
+                form.submit();
+            }, 800);
+        }, 2500);
+    });
+
+    // Custom Tab Toggle behavior
+    document.querySelectorAll('.nav-link').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.nav-link').forEach(t => {
+                t.classList.remove('active', 'bg-primary', 'text-white');
+                t.classList.add('text-dark', 'bg-white');
+            });
+            this.classList.add('active');
+            this.classList.remove('text-dark', 'bg-white');
+        });
+    });
+</script>
+
+<style>
+    /* Gradient Success for Pay Button */
+    .bg-gradient-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        border: none;
+    }
+    
+    .hover-bg-light:hover { background-color: #f8f9fa !important; }
+    
+    .shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
+    
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+        background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%) !important;
+        color: white !important;
+        border-color: transparent !important;
+    }
+</style>
+{% endblock %}

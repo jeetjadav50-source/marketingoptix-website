@@ -1,0 +1,421 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ p.title }} | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-offWhite min-vh-100 position-relative overflow-hidden">
+
+    <div class="container py-4 position-relative z-1">
+        <div class="mb-5" data-aos="fade-down">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2 font-inter small fw-semibold">
+                    <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-primary text-decoration-none">Home</a></li>
+                    <li class="breadcrumb-item text-muted active" aria-current="page">Project Insights</li>
+                </ol>
+            </nav>
+            <h1 class="display-5 fw-bolder mb-0 font-outfit text-dark" style="letter-spacing: -1.5px;">Strategic <span class="text-gradient">Project Details</span></h1>
+        </div>
+
+        <div class="row row-gap-5">
+            <!-- Sidebar: Poster Hub -->
+            <div class="col-lg-4">
+                <div class="card glass-panel border-0 rounded-4 overflow-hidden sticky-top dashboard-card" style="top: 100px;">
+                    <div class="card-body p-4 p-xl-5 text-center">
+                        <div class="avatar-container position-relative mb-4 mx-auto" style="width: 140px; height: 140px;">
+                            <div class="rounded-circle p-1 bg-white shadow-lg border border-4 border-white overflow-hidden w-100 h-100">
+                                {% if p.userid.profilepic %}
+                                <img src="{{ p.userid.profilepic.url }}" class="w-100 h-100" style="object-fit: cover;" alt="Poster" />
+                                {% else %}
+                                <div class="bg-gradient-primary text-white w-100 h-100 d-flex align-items-center justify-content-center">
+                                    <i class="fas fa-user-tie fa-4x opacity-50"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <h3 class="fw-bolder mb-1 font-outfit text-dark"><a href="{% url 'profile' p.userid.userid %}" class="text-dark text-decoration-none hover-primary transition">{{ p.userid.username }}</a></h3>
+                        <p class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1 mb-4">Project Commander</p>
+
+                        <div class="d-flex justify-content-center gap-1 text-warning mb-4 fs-5">
+                            {% for i in rating_stars %}<i class="fas fa-star"></i>{% endfor %}
+                            {% for i in empty_stars %}<i class="far fa-star"></i>{% endfor %}
+                        </div>
+
+                        <div class="border-top border-light pt-4 text-start">
+                            <div class="mb-3">
+                                <label class="text-muted small fw-bold text-uppercase font-inter mb-1 d-block" style="letter-spacing: 1px;">Strategic Location</label>
+                                <p class="text-dark fw-bolder mb-0 fs-6"><i class="fas fa-map-marker-alt text-primary me-2"></i> {{ p.userid.cityid.cityname|default:"Global Network" }}</p>
+                            </div>
+                            <div class="mb-0">
+                                <label class="text-muted small fw-bold text-uppercase font-inter mb-1 d-block" style="letter-spacing: 1px;">Collaboration Status</label>
+                                <p class="text-dark fw-bolder mb-0 fs-6"><i class="fas fa-circle text-success me-2 x-small"></i> Active for Hiring</p>
+                            </div>
+                        </div>
+                        
+                        {% if request.session.uid and p.userid_id != request.session.uid %}
+                        <a href="{% url 'chat_thread' p.userid.userid %}" class="btn bg-gradient-dark text-white rounded-pill w-100 mt-4 py-3 fw-bold transition hover-lift shadow-md">
+                            <i class="fas fa-comment-dots me-2"></i> Message Commander
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content: Project Intelligence -->
+            <div class="col-lg-8">
+                <!-- Status Banners -->
+                {% if p.status == 2 %}
+                <div class="alert glass-alert-success border-0 shadow-lg rounded-4 mb-5 d-flex align-items-center justify-content-between p-4 px-md-5" data-aos="fade-left">
+                    <div class="d-flex align-items-center gap-4">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center shadow-lg" style="width: 60px; height: 60px;">
+                            <i class="fas fa-rocket fa-lg"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bolder mb-1 font-outfit text-success">Mission In Progress</h4>
+                            <p class="mb-0 text-dark-200 fw-medium">Strategic Partner: <a href="{% url 'profile' accepted_q.userid.userid %}" class="text-primary text-decoration-none hover-underline fw-bold">{{ accepted_q.userid.username }}</a></p>
+                        </div>
+                    </div>
+                    {% if p.userid_id == request.session.uid %}
+                    <a href="{% url 'complete_project' p.projectid %}" class="btn bg-success text-white rounded-pill px-4 py-2 fw-bold shadow-sm hover-lift" onclick="return confirm('Conclude this mission? This action is permanent.')">
+                        Complete Mission
+                    </a>
+                    {% endif %}
+                </div>
+                {% elif p.status == 3 %}
+                <div class="alert glass-alert-primary border-0 shadow-lg rounded-4 mb-5 d-flex align-items-center gap-4 p-4 px-md-5" data-aos="fade-left">
+                    <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center shadow-lg" style="width: 60px; height: 60px;">
+                        <i class="fas fa-check-double fa-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="fw-bolder mb-1 font-outfit text-primary">Mission Accomplished</h4>
+                        <p class="mb-0 text-dark-200 fw-medium">Successfully executed by <span class="fw-bold">{{ accepted_q.userid.username }}</span></p>
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="card glass-panel border-0 rounded-4 overflow-hidden shadow-lg mb-5 dashboard-card" data-aos="fade-up">
+                    <div class="card-body p-4 p-md-5">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-start mb-5 gap-4">
+                            <div class="flex-grow-1">
+                                <h2 class="display-6 fw-bolder mb-3 font-outfit text-dark" style="letter-spacing: -1px;">{{ p.title }}</h2>
+                                <div class="d-flex flex-wrap gap-2 align-items-center">
+                                    <span class="badge bg-gradient-secondary py-3 px-4 rounded-pill shadow-sm fs-5 fw-bold font-inter">₹{{ p.budget }} Budget</span>
+                                    <span class="badge bg-light text-dark-300 border py-2 px-3 rounded-pill fw-semibold font-inter"><i class="fas fa-briefcase me-2 text-primary"></i> {{ p.mode|title }}</span>
+                                </div>
+                            </div>
+                            {% if request.session.uid %}
+                            <a href="{% url 'toggle_save' p.projectid %}" class="btn {% if is_saved %}btn-danger shadow-danger-sm{% else %}glass-button-outline-danger{% endif %} rounded-circle d-flex align-items-center justify-content-center transition-all hover-lift p-0 shadow-lg" style="width: 60px; height: 60px;" title="Save Strategic Intel">
+                                <i class="{% if is_saved %}fas{% else %}far{% endif %} fa-heart fs-4"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+
+                        <div class="project-brief bg-white bg-opacity-40 rounded-4 p-4 mb-5 border border-white">
+                            <h5 class="fw-bolder mb-3 font-outfit text-dark-300 border-bottom border-light pb-2">Mission Briefing</h5>
+                            <p class="text-muted fs-5 font-inter leading-relaxed" style="line-height: 1.8;">{{ p.description }}</p>
+                        </div>
+
+                        <div class="row row-gap-4">
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-dark mb-3 text-uppercase font-inter" style="letter-spacing: 1px;"><i class="fas fa-layer-group me-2 text-primary"></i> Strategic Assets Needed</h6>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for s in services %}
+                                        <div class="glass-badge">{{ s.serviceid.servicename }}</div>
+                                        {% endfor %}
+                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold text-dark mb-3 text-uppercase font-inter" style="letter-spacing: 1px;"><i class="far fa-calendar-check me-2 text-primary"></i> Mission Timeline</h6>
+                                <p class="text-dark fw-bold mb-0 fs-6 font-inter"><i class="far fa-clock me-2 opacity-50"></i> Posted on {{ p.createdDT|date:"F d, Y" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Proposals -->
+                <div class="card glass-panel border-0 rounded-5 shadow-2xl mb-5 overflow-hidden dashboard-card" data-aos="fade-up">
+                    <div class="card-header bg-dark bg-opacity-5 p-4 p-md-5 border-bottom border-light">
+                        <h4 class="fw-bolder mb-0 font-outfit text-dark d-flex align-items-center gap-3">
+                            <span class="bg-primary text-white rounded-circle px-3 py-1 shadow-sm">{{ quotations.count }}</span> Strategic Proposals
+                        </h4>
+                    </div>
+                    <div class="card-body p-0">
+                        {% for q in quotations %}
+                        <div class="quotation-card p-4 p-md-5 {% if not forloop.last %}border-bottom border-light border-opacity-50{% endif %} transition-all hover-highlight {% if q.status == 'accepted' %}accepted-proposal{% endif %}">
+                            <div class="row align-items-center row-gap-4">
+                                <div class="col-md-7">
+                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                        <div class="avatar-ring-sm p-1 rounded-circle border border-2 border-white shadow-sm overflow-hidden" style="width: 60px; height: 60px;">
+                                            {% if q.userid.profilepic %}
+                                            <img src="{{ q.userid.profilepic.url }}" class="w-100 h-100 rounded-circle" style="object-fit: cover;">
+                                            {% else %}
+                                            <div class="bg-gradient-primary text-white w-100 h-100 d-flex align-items-center justify-content-center rounded-circle">
+                                                <i class="fas fa-id-badge"></i>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                        <div>
+                                            <h5 class="fw-bolder mb-1 font-outfit"><a href="{% url 'profile' q.userid.userid %}" class="text-dark text-decoration-none hover-primary">{{ q.userid.username }}</a></h5>
+                                            <p class="text-success fw-bold font-inter small mb-0"><i class="fas fa-tag me-1"></i> Proposal Bid: ₹{{ q.budget }}</p>
+                                        </div>
+                                    </div>
+                                    <p class="text-muted font-inter mb-0 fs-6">{{ q.description }}</p>
+                                </div>
+                                <div class="col-md-5 text-md-end">
+                                    <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+                                        {% if q.pdf %}
+                                        <a href="{{ q.pdf.url }}" class="btn glass-button-dark rounded-pill px-4 shadow-sm" target="_blank">
+                                            <i class="fas fa-file-invoice me-2"></i> Review Docs
+                                        </a>
+                                        {% endif %}
+
+                                        {% if p.userid_id == request.session.uid %}
+                                        <a href="{% url 'chat_thread' q.userid.userid %}" class="btn btn-outline-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center p-0" style="width: 42px; height: 42px;" title="Secure Channel">
+                                            <i class="fas fa-comments"></i>
+                                        </a>
+                                        {% endif %}
+
+                                        {% if p.userid_id == request.session.uid and p.status == 1 %}
+                                        <a href="{% url 'checkout' q.quotationid %}" class="btn btn-premium-pay rounded-pill px-4 py-2 shadow-lg fw-bold hover-lift transition d-inline-flex align-items-center gap-2">
+                                            <i class="fas fa-shield-alt text-lime-300"></i> Accept & Pay Securely
+                                        </a>
+                                        {% elif q.status == 'accepted' %}
+                                        <span class="badge bg-gradient-secondary rounded-pill px-4 py-3 fw-bold shadow-sm fs-6"><i class="fas fa-award me-2"></i> Strategist Assigned</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="text-center py-5 my-5 opacity-50">
+                            <i class="fas fa-satellite fa-4x text-muted mb-4 pulse-indicator"></i>
+                            <h4 class="fw-bold font-outfit">Awaiting Strategic Signal</h4>
+                            <p class="font-inter">No proposals have been received for this mission yet.</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Feedback Station (Post-Completion) -->
+                {% if p.status == 3 and p.userid_id == request.session.uid and not review_exists %}
+                <div class="card glass-panel-dark border-0 shadow-2xl rounded-5 overflow-hidden mb-5" id="review-form" data-aos="zoom-in">
+                    <div class="card-header bg-dark bg-opacity-20 border-bottom border-light border-opacity-10 p-4 p-md-5 text-center">
+                        <h3 class="fw-bolder mb-2 font-outfit text-white">Strategic De-briefing</h3>
+                        <p class="text-white-50 font-inter mb-0">Evaluate the performance of {{ accepted_q.userid.username }} on this mission.</p>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <form method="POST" action="{% url 'submit_review' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="projectid" value="{{ p.projectid }}">
+                            <div class="text-center mb-5">
+                                <div class="rating-input d-flex justify-content-center gap-3 fs-1 text-warning">
+                                    <input type="radio" name="rating" value="1" id="star1" required hidden><label for="star1" class="cursor-pointer transition hover-scale"><i class="far fa-star"></i></label>
+                                    <input type="radio" name="rating" value="2" id="star2" hidden><label for="star2" class="cursor-pointer transition hover-scale"><i class="far fa-star"></i></label>
+                                    <input type="radio" name="rating" value="3" id="star3" hidden><label for="star3" class="cursor-pointer transition hover-scale"><i class="far fa-star"></i></label>
+                                    <input type="radio" name="rating" value="4" id="star4" hidden><label for="star4" class="cursor-pointer transition hover-scale"><i class="far fa-star"></i></label>
+                                    <input type="radio" name="rating" value="5" id="star5" hidden><label for="star5" class="cursor-pointer transition hover-scale"><i class="far fa-star"></i></label>
+                                </div>
+                            </div>
+                            <div class="mb-5">
+                                <textarea name="review" class="form-control glass-input text-white rounded-4 p-4 shadow-none fs-5" rows="5" placeholder="Document the collaboration results and partner efficiency..." required></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" name="submit_review" value="true" class="btn bg-gradient-primary text-white btn-lg rounded-pill px-5 py-3 shadow-lg hover-lift transition fw-bold fs-5">
+                                    Submit Final Intelligence
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Proposal Submission Bay -->
+                {% if request.session.uid and request.session.uid != p.userid_id and p.status == 1 and not has_existing_quotation %}
+                <div class="card glass-panel border-0 shadow-2xl rounded-5 overflow-hidden mb-5" id="bid-form" data-aos="fade-up">
+                    <div class="card-header bg-gradient-dark text-white p-4 p-md-5">
+                        <h3 class="fw-bolder mb-1 font-outfit d-flex align-items-center gap-3"><i class="fas fa-paper-plane text-lime-300"></i> Deploy Proposal</h3>
+                        <p class="text-white-50 font-inter mb-0">Present your strategic pitch and budgetary requirements for this mission.</p>
+                    </div>
+                    <div class="card-body p-4 p-md-5">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row g-4">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold font-inter text-dark-300">Strategic Budgetary Requirement (₹)</label>
+                                    <div class="input-group input-group-lg bg-white border rounded-pill overflow-hidden shadow-sm">
+                                        <span class="input-group-text bg-white border-0 text-primary fw-bold ps-4">₹</span>
+                                        <input type="number" name="budget" step="0.01" class="form-control border-0 px-3 focus-none fs-5 fw-bold" required placeholder="{{ p.budget }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold font-inter text-dark-300">Supporting Intelligence (PDF)</label>
+                                    <input type="file" name="pdf" class="form-control form-control-lg border border-2 border-dashed rounded-pill bg-light" required>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label fw-bold font-inter text-dark-300">Strategic Executive Summary</label>
+                                    <textarea name="description" class="form-control border-0 shadow-inner bg-light rounded-4 p-4 fs-6 font-inter" rows="5" placeholder="Define your approach and why you are the optimal asset for this mission..." required></textarea>
+                                </div>
+                                <div class="col-12 text-center mt-5">
+                                    <button type="submit" name="submit_quotation" value="true" class="btn bg-gradient-primary text-white btn-lg rounded-pill px-5 py-3 shadow-lg hover-lift transition fw-bold fs-5">
+                                        Launch Proposal Deployment
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% elif has_existing_quotation and p.status == 1 %}
+                <div class="card glass-panel border-0 shadow-lg rounded-5 text-center p-5 mb-5" data-aos="zoom-in">
+                    <div class="bg-success-subtle text-success rounded-circle d-inline-flex align-items-center justify-content-center mb-4 shadow-sm" style="width: 100px; height: 100px;">
+                        <i class="fas fa-check-double fa-3x"></i>
+                    </div>
+                    <h2 class="fw-bolder mb-3 text-dark font-outfit">Deployment Active</h2>
+                    <p class="fs-5 text-muted font-inter mb-4">Your strategic proposal is currently under review. Strategic updates will appear in your console.</p>
+                    <a href="{% url 'my_quotations' %}" class="btn bg-gradient-secondary text-white rounded-pill px-5 py-3 fw-bold shadow-md">Monitor My Proposals</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .dashboard-card {
+        border: 1px solid rgba(255,255,255,0.4) !important;
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(15px);
+    }
+
+    .glass-panel-dark {
+        background: rgba(15, 23, 42, 0.9) !important;
+        backdrop-filter: blur(20px);
+    }
+
+    .glass-badge {
+        background: rgba(99, 102, 241, 0.05);
+        color: #6366f1;
+        border: 1px solid rgba(99, 102, 241, 0.12);
+        padding: 5px 14px;
+        border-radius: 100px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: default;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .glass-badge:hover {
+        background: rgba(99, 102, 241, 0.1);
+        border-color: rgba(99, 102, 241, 0.3);
+        color: #4f46e5;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.08);
+    }
+
+    .glass-badge::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        background: currentColor;
+        border-radius: 50%;
+        opacity: 0.5;
+    }
+
+    .glass-button-outline-danger {
+        background: transparent;
+        color: #ef4444;
+        border: 2px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .glass-button-outline-danger:hover {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: #ef4444;
+    }
+
+    .glass-button-dark {
+        background: rgba(15, 23, 42, 0.05);
+        color: #1e293b;
+        border: 1px solid rgba(15, 23, 42, 0.1);
+        font-weight: 700;
+    }
+
+    .glass-button-dark:hover {
+        background: rgba(15, 23, 42, 0.1);
+        color: #000;
+    }
+
+    .glass-input {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+
+    .glass-input:focus {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(99, 102, 241, 0.4) !important;
+    }
+
+    .hover-highlight:hover {
+        background-color: rgba(99, 102, 241, 0.03);
+    }
+
+    .accepted-proposal {
+        background-color: rgba(16, 185, 129, 0.05);
+        border-left: 6px solid #10b981 !important;
+    }
+
+    .shadow-2xl { box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3); }
+    .shadow-danger-sm { box-shadow: 0 4px 15px rgba(239, 68, 68, 0.2); }
+
+    .leading-relaxed { line-height: 1.8; }
+
+    .pulse-indicator {
+        animation: pulseEffect 2s infinite;
+    }
+
+    @keyframes pulseEffect {
+        0% { transform: scale(1); opacity: 0.5; }
+        50% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); opacity: 0.5; }
+    }
+
+
+    /* Rating rtl logic */
+    .rating-input { direction: rtl; }
+    .rating-input label:hover, .rating-input label:hover~label { color: #ffc107; font-weight: 900 !important; }
+    .rating-input input:checked~label { color: #ffc107; font-weight: 900 !important; }
+
+    /* Premium Pay Button */
+    .btn-premium-pay {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4) !important;
+        text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    .btn-premium-pay:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        transform: translateY(-2px);
+    }
+    .btn-premium-pay::after {
+        content: '';
+        position: absolute;
+        top: -50%; left: -50%; width: 200%; height: 200%;
+        background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+        transform: rotate(30deg);
+        animation: shimmer 3s infinite linear;
+        z-index: -1;
+    }
+    @keyframes shimmer {
+        0% { transform: translateX(-100%) rotate(30deg); }
+        100% { transform: translateX(100%) rotate(30deg); }
+    }
+    .text-lime-300 { color: #bef264 !important; }
+</style>
+{% endblock %}

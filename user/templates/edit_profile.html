@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Profile | MarketingOptix{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-offWhite min-vh-100 position-relative">
+
+    <div class="container py-4 position-relative z-1">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="mb-5" data-aos="fade-down">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-2">
+                            <li class="breadcrumb-item"><a href="{% url 'profile' request.session.uid %}"
+                                    class="text-decoration-none">My Profile</a></li>
+                            <li class="breadcrumb-item active">Account Settings</li>
+                        </ol>
+                    </nav>
+                    <h1 class="fw-bolder text-dark font-outfit h2 mb-0">Account Settings</h1>
+                    <p class="text-muted font-inter">Manage your personal and professional presence</p>
+                </div>
+
+                <div class="card glass-panel border-0 shadow-lg rounded-4 overflow-hidden" data-aos="fade-up">
+                    <div class="card-body p-4 p-md-5">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+
+                            <!-- Profile Picture Section -->
+                            <div class="text-center mb-5 pb-4 border-bottom border-light">
+                                <div class="position-relative d-inline-block mb-3">
+                                    {% if u.profilepic %}
+                                    <img src="{{ u.profilepic.url }}" id="img_preview"
+                                        class="rounded-circle shadow-lg border border-4 border-white transition hover-scale-img"
+                                        style="width: 140px; height: 140px; object-fit: cover;">
+                                    {% else %}
+                                    <div id="img_preview_placeholder"
+                                        class="bg-gradient-primary text-white rounded-circle shadow-lg mx-auto d-flex align-items-center justify-content-center transition hover-scale-img"
+                                        style="width: 140px; height: 140px;">
+                                        <i class="fas fa-user-astronaut fa-3x opacity-75"></i>
+                                    </div>
+                                    {% endif %}
+                                    <label for="id_profilepic"
+                                        class="btn bg-white text-primary btn-sm rounded-circle position-absolute bottom-0 end-0 shadow-lg d-flex align-items-center justify-content-center hover-lift transition border border-light"
+                                        style="width: 40px; height: 40px; cursor: pointer;">
+                                        <i class="fas fa-camera"></i>
+                                    </label>
+                                    <input type="file" name="profilepic" id="id_profilepic" class="d-none"
+                                        onchange="previewImage(this)">
+                                </div>
+                                <h5 class="fw-bolder mb-0 font-outfit text-dark">Profile Picture</h5>
+                                <p class="text-muted small">Update your photo for everyone to see</p>
+                            </div>
+
+                            <div class="row g-4">
+                                <!-- Basic Info -->
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small text-dark-200">Username</label>
+                                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                        <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                                class="fas fa-user"></i></span>
+                                        <input type="text" name="username"
+                                            class="form-control bg-white border-0 shadow-none px-3 py-3 focus-none"
+                                            value="{{ u.username }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small text-dark-200">Email Address</label>
+                                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                        <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                                class="fas fa-envelope"></i></span>
+                                        <input type="email" name="email"
+                                            class="form-control bg-white border-0 shadow-none px-3 py-3 focus-none"
+                                            value="{{ u.email }}" required>
+                                    </div>
+                                </div>
+
+                                <!-- Contact & Professional -->
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small text-dark-200">Contact Number</label>
+                                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                        <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                                class="fas fa-phone"></i></span>
+                                        <input type="text" name="contact"
+                                            class="form-control bg-white border-0 shadow-none px-3 py-3 focus-none"
+                                            value="{{ u.displaycontact|default:'' }}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold small text-dark-200">Website / Portfolio
+                                        Link</label>
+                                    <div class="input-group shadow-sm rounded-3 overflow-hidden">
+                                        <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                                class="fas fa-globe"></i></span>
+                                        <input type="url" name="website"
+                                            class="form-control bg-white border-0 shadow-none px-3 py-3 focus-none"
+                                            value="{{ u.website|default:'' }}">
+                                    </div>
+                                </div>
+
+                                <!-- Location -->
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold small text-dark-200">Location (City)</label>
+                                    <div class="input-group shadow-sm rounded-3 overflow-hidden custom-select-wrapper">
+                                        <span class="input-group-text bg-white border-0 text-primary ps-4"><i
+                                                class="fas fa-map-marker-alt"></i></span>
+                                        <select name="city" class="form-select bg-white border-0 shadow-none px-3 py-3">
+                                            <option value="">Select City</option>
+
+                                            {% for c in cities %}
+                                            <option value="{{ c.cityid }}" {% if u.cityid_id == c.cityid %}selected{% endif %}>
+                                                {{ c.cityname }}
+                                            </option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Bio -->
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold small text-dark-200">Professional Bio</label>
+                                    <textarea name="bio" rows="4"
+                                        class="form-control bg-white border-0 shadow-sm rounded-3 px-4 py-3 focus-none"
+                                        placeholder="Tell us about yourself...">{{ u.bio|default:'' }}</textarea>
+                                </div>
+
+                                <!-- Gender Selection -->
+                                <div class="col-12">
+                                    <label
+                                        class="form-label fw-semibold small text-dark-200 d-block mb-3">Gender</label>
+                                    <div
+                                        class="d-flex gap-4 p-3 bg-white bg-opacity-75 rounded-3 shadow-sm border border-light">
+                                        <div class="form-check custom-radio">
+                                            <input class="form-check-input border-secondary" type="radio" name="gender"
+                                                id="g_male" value="male" {% if u.gender == 'male' %}checked{% endif %}>
+                                            <label class="form-check-label text-dark-200 cursor-pointer"
+                                                for="g_male">Male</label>
+                                        </div>
+                                        <div class="form-check custom-radio">
+                                            <input class="form-check-input border-secondary" type="radio" name="gender"
+                                                id="g_female" value="female" {% if u.gender == 'female' %}checked{% endif %}>
+                                            <label class="form-check-label text-dark-200 cursor-pointer"
+                                                for="g_female">Female</label>
+                                        </div>
+                                        <div class="form-check custom-radio">
+                                            <input class="form-check-input border-secondary" type="radio" name="gender"
+                                                id="g_other" value="other" {% if u.gender == 'other' %}checked{% endif %}>
+                                            <label class="form-check-label text-dark-200 cursor-pointer"
+                                                for="g_other">Other</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 mt-5">
+                                    <div class="d-flex gap-3 justify-content-end">
+                                        <a href="{% url 'profile' request.session.uid %}"
+                                            class="btn btn-outline-secondary rounded-pill px-5 py-3 fw-semibold hover-lift transition">Cancel</a>
+                                        <button type="submit"
+                                            class="btn bg-gradient-primary text-white rounded-pill px-5 py-3 shadow-lg fw-semibold hover-lift transition">Save
+                                            Changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                const preview = document.getElementById('img_preview');
+                const placeholder = document.getElementById('img_preview_placeholder');
+
+                if (preview) {
+                    preview.src = e.target.result;
+                } else if (placeholder) {
+                    const img = document.createElement('img');
+                    img.id = 'img_preview';
+                    img.src = e.target.result;
+                    img.className = 'rounded-circle shadow border border-4 border-white';
+                    img.style.width = '140px';
+                    img.style.height = '140px';
+                    img.style.objectFit = 'cover';
+                    placeholder.parentNode.replaceChild(img, placeholder);
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+<style>
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.7) !important;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255,255,255,0.4) !important;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        background-color: #fff !important;
+        box-shadow: 0 0 0 4px rgba(13, 110, 253, 0.1) !important;
+        border: 1px solid #0d6efd !important;
+    }
+
+    .input-group-text {
+        min-width: 45px;
+        justify-content: center;
+    }
+</style>
+{% endblock %}

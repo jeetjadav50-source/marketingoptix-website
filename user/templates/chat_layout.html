@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="chat-dashboard-area bg-offWhite min-vh-100 py-4">
+    <div class="container-fluid px-4">
+        <div class="row g-0 rounded-5 overflow-hidden shadow-2xl glass-panel-dark" style="height: 85vh; max-height: 900px; min-height: 500px;">
+            
+            <!-- Sidebar (Threads List) -->
+            <div class="col-md-4 col-lg-3 border-end border-light border-opacity-10 d-flex flex-column h-100 bg-dark bg-opacity-20">
+                <div class="sidebar-header p-4 border-bottom border-light border-opacity-10">
+                    <h3 class="fw-bolder text-white font-outfit mb-3">Messages</h3>
+                    <div class="search-wrapper position-relative">
+                        <input type="text" class="form-control bg-white bg-opacity-5 border-0 rounded-pill px-4 py-2 text-white small focus-none" placeholder="Search strategy partners...">
+                        <i class="fas fa-search position-absolute top-50 end-0 translate-middle-y me-3 text-white-50 small"></i>
+                    </div>
+                </div>
+                
+                <div class="sidebar-content flex-grow-1 overflow-auto custom-scrollbar">
+                    <div class="list-group list-group-flush">
+                        {% for t in threads %}
+                        <a href="{% url 'chat_thread' t.user.userid %}" 
+                           class="list-group-item list-group-item-action p-3 border-bottom border-light border-opacity-5 bg-transparent transition thread-item {% if t.user.userid == other_user.userid %}active-thread{% endif %}">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="position-relative shrink-0">
+                                    <div class="avatar-ring p-0.5 rounded-circle border border-2 {% if t.unread_count > 0 %}border-primary{% else %}border-light border-opacity-20{% endif %}">
+                                        {% if t.user.profilepic %}
+                                        <img src="{{ t.user.profilepic.url }}" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                        {% else %}
+                                        <div class="bg-gradient-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            <i class="fas fa-user-astronaut"></i>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {% if t.unread_count > 0 %}
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-dark shadow-sm" style="font-size: 0.6rem;">{{ t.unread_count }}</span>
+                                    {% endif %}
+                                </div>
+                                <div class="flex-grow-1 overflow-hidden">
+                                    <div class="d-flex justify-content-between align-items-center mb-1">
+                                        <h6 class="text-white fw-bold mb-0 font-outfit truncate">{{ t.user.username }}</h6>
+                                        <span class="text-white-50 x-small">{{ t.latest_message.timestamp|date:"D" }}</span>
+                                    </div>
+                                    <p class="text-white-50 small mb-0 truncate font-inter">
+                                        {% if t.latest_message.sender_id == request.session.uid %}<span class="text-primary fw-bold">You:</span> {% endif %}
+                                        {{ t.latest_message.content }}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        {% empty %}
+                        <div class="p-5 text-center text-white-50 opacity-50">
+                            <i class="far fa-comments fa-3x mb-3"></i>
+                            <p class="small">No active conversations</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Area (Active Chat) -->
+            <div class="col-md-8 col-lg-9 d-flex flex-column h-100 position-relative" style="background: rgba(15, 23, 42, 0.4);">
+                {% block chat_content %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .glass-panel-dark {
+        background: rgba(15, 23, 42, 0.8) !important;
+        backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .thread-item {
+        border-left: 3px solid transparent;
+    }
+    .thread-item:hover {
+        background: rgba(255, 255, 255, 0.05) !important;
+    }
+    .active-thread {
+        background: rgba(99, 102, 241, 0.1) !important;
+        border-left-color: #6366f1 !important;
+    }
+
+    .truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar { width: 5px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); }
+
+    .shrink-0 { flex-shrink: 0; }
+    .shadow-2xl { box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.6); }
+
+    /* Fix for mobile */
+    @media (max-width: 767px) {
+        .col-md-4 { height: auto !important; max-height: 40vh; }
+        .col-md-8 { height: 60vh !important; }
+    }
+</style>
+{% endblock %}
